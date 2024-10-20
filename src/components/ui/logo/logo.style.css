@@ -1,0 +1,33 @@
+.logo {
+  margin: auto;
+  min-width: 250px;
+  width: 30%;
+  min-height: 200px;
+  height: 30%;
+  max-width: 900px;
+}
+
+.title {
+  font-family: "Permanent Marker", cursive;
+  position: relative;
+  background: linear-gradient(90deg, pink, red);
+  font-size: 1.2rem;
+  transform: rotate(-10deg);
+  background-clip: text;
+  color: transparent;
+  left: 55px;
+  bottom: 77px;
+  z-index: 10;
+}
+
+@media (min-width: 900px) {
+  .title {
+    font-size: 2.2rem;
+  }
+}
+@media (min-width: 1200px) {
+  .title {
+    bottom: 65px;
+    font-size: 3rem;
+  }
+}
