@@ -1,0 +1,30 @@
+.card {
+  width: 400px;
+  margin: auto;
+  margin-top: 40px;
+  border-radius: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  transition: 0.4s all ease;
+  border: 2px transparent;
+  cursor: pointer;
+}
+
+.card:hover {
+  border: 4px #808080;
+}
+.card__title {
+  position: relative;
+  color: #fff;
+  text-align: center;
+  top: -50px;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 900px) {
+  .card {
+    width: 320px;
+  }
+}
