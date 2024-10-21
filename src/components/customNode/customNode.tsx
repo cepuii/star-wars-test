@@ -1,15 +1,15 @@
-import { Handle, Position } from "@xyflow/react";
+import { Handle, Node, NodeProps, Position } from "@xyflow/react";
 
-const handleStyle = { left: 10 };
-
-interface DataProps {
-  title: string;
-  episodeId?: number;
-  model?: string;
-}
-
-function CustomNode({ data }) {
-  const { episodeId, title, model } = data as DataProps;
+type CustomNodeProps = Node<
+  {
+    title: string;
+    episodeId?: number;
+    model?: string;
+  },
+  "string"
+>;
+function CustomNode({ data }: NodeProps<CustomNodeProps>) {
+  const { episodeId, title, model } = data;
   return (
     <>
       <Handle type="target" position={Position.Top} />
