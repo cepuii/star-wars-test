@@ -1,0 +1,13 @@
+.dialog__panel {
+  width: 100%;
+  max-width: 448px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 24px;
+  backdrop-filter: blur(24px);
+  transition: transform 300ms ease-out, opacity 300ms ease-out;
+}
+.dialog__panel[data-closed] {
+  transform: scale(0.95);
+  opacity: 0;
+}

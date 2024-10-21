@@ -74,10 +74,10 @@ const CardsList = () => {
           <div className="slider__item__wrapper">
             <CardItem person={people[index * slidesPerView]} />
             {slidesPerView > 1 && people[index * slidesPerView + 1] && (
-              <CardItem person={people[index * 3 + 1]} />
+              <CardItem person={people[index * slidesPerView + 1]} />
             )}
             {slidesPerView > 2 && people[index * slidesPerView + 2] && (
-              <CardItem person={people[index * 3 + 2]} />
+              <CardItem person={people[index * slidesPerView + 2]} />
             )}
           </div>
         </SwiperSlide>

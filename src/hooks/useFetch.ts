@@ -20,7 +20,6 @@ function useFetch<T>(url: string): UseFetchResult<T> {
         }
         const result: T = await response.json();
         setData(result);
-        console.log("result", result);
       } catch (err) {
         if (err) {
           setError(err as Error);
