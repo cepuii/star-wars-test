@@ -2,6 +2,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Modal } from "@mui/material";
 import {
   addEdge,
+  OnConnect,
   ReactFlow,
   useEdgesState,
   useNodesState,
@@ -35,9 +36,8 @@ const CardInfoModal = ({ person, open, handleClose }: CardInfoModalProps) => {
   ]);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  const onConnect = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (connection: any) => setEdges((eds) => addEdge(connection, eds)),
+  const onConnect: OnConnect = useCallback(
+    (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   );
 
