@@ -1,7 +1,6 @@
 type Person = {
   id: number;
   name: string;
-  birthYear: string;
   films: number[];
   starships: number[];
 };
