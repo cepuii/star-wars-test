@@ -1,6 +1,7 @@
 .loader {
   position: absolute;
   inset: 50%;
+  transform: translate(-50%, -50%);
   width: 74px;
   height: calc(27px * 0.866 + 6px);
   display: grid;
