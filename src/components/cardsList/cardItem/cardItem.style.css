@@ -1,5 +1,7 @@
 .card {
   width: 400px;
+  height: 520px;
+  position: relative;
   margin: auto;
   margin-top: 40px;
   border-radius: 200px;
@@ -8,12 +10,20 @@
   justify-content: center;
   align-content: center;
   transition: 0.4s all ease;
-  border: 2px transparent;
+  border: 2px solid transparent;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .card:hover {
-  border: 4px #808080;
+  border: 2px solid #808080;
+}
+
+.cars__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 .card__title {
   position: relative;
@@ -26,5 +36,6 @@
 @media (max-width: 900px) {
   .card {
     width: 320px;
+    height: 410px;
   }
 }

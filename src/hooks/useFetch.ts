@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 interface UseFetchResult<T> {
@@ -14,16 +15,10 @@ function useFetch<T>(url: string): UseFetchResult<T> {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`Error: ${response.statusText}`);
-        }
-        const result: T = await response.json();
-        setData(result);
+        const { data } = await axios.get(url);
+        setData(data);
       } catch (err) {
-        if (err) {
-          setError(err as Error);
-        }
+        setError(err as Error);
       } finally {
         setLoading(false);
       }

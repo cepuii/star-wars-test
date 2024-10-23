@@ -22,7 +22,7 @@ const CardsList = () => {
   const width = useResponsiveWidth();
   const [nextPageUrl, setNextPageUrl] = useState("");
   const [fetchUrl, setFetchUrl] = useState(PEOPLE_URL);
-  const { data, loading } = useFetch<PeopleApiData>(fetchUrl);
+  const { data, loading, error } = useFetch<PeopleApiData>(fetchUrl);
 
   useEffect(() => {
     if (data) {
@@ -48,6 +48,12 @@ const CardsList = () => {
   }, [width, slidesPerView]);
 
   if (loading) return <Loader />;
+  if (error)
+    return (
+      <div>
+        <h2>{"Failed to load data. Please try again later."}</h2>
+      </div>
+    );
 
   const handleSlideChange = (peopleLength: number, index: number) => {
     if (index >= peopleLength / slidesPerView - 2 && !!nextPageUrl) {

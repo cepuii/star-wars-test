@@ -2,6 +2,7 @@ import { Handle, Node, NodeProps, Position } from "@xyflow/react";
 
 type CustomNodeProps = Node<
   {
+    id: number;
     title: string;
     episodeId?: number;
     model?: string;
