@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { PEOPLE_IMG_URL } from "../../../constants/urls";
 import CardInfoModal from "../../cardInfoModal/cardInfoModal";
 import "./cardItem.style.css";
 
@@ -16,12 +17,12 @@ const CardItem = ({ person }: CardItemProps) => {
   };
   return (
     <>
-      <div onClick={handleClick}>
+      <div onClick={handleClick} className="card">
         {person?.id && (
           <img
-            src={`https://starwars-visualguide.com/assets/img/characters/${person?.id}.jpg`}
+            src={`${PEOPLE_IMG_URL}${person?.id}.jpg`}
             alt={person?.name ?? "character"}
-            className="card"
+            className="card__img"
           />
         )}
         <h2 className="card__title">{person?.name}</h2>

@@ -8,8 +8,11 @@ import {
   useNodesState,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
+import axios from "axios";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { FILMS_URL, STARSHIPS_URL } from "../../constants/urls";
 import useResponsiveWidth from "../../hooks/useResponsiveWidth";
+import { generateGraphData } from "../../utils/generateGraphData";
 import CustomNode from "../customNode/customNode";
 import Loader from "../ui/loader/loader";
 import "./cardInfoModal.style.css";
@@ -20,116 +23,63 @@ interface CardInfoModalProps {
   handleClose: () => void;
 }
 
-const initialEdges = [{ id: "e1-2", source: "1", target: "2" }];
-
 const CardInfoModal = ({ person, open, handleClose }: CardInfoModalProps) => {
   const [isLoading, setIsLoading] = useState(true);
-  const nodeTypes = useMemo(() => ({ customNode: CustomNode }), []);
   const width = useResponsiveWidth();
+
+  const nodeTypes = useMemo(() => ({ customNode: CustomNode }), []);
+
   const [nodes, setNodes, onNodesChange] = useNodesState([
     {
       id: "hero",
       type: "customNode",
       position: { x: 20, y: 20 },
-      data: { title: person?.name },
+      data: { id: person?.id, title: person?.name },
     },
   ]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  const [edges, setEdges, onEdgesChange] = useEdgesState([
+    { id: "", source: "", target: "" },
+  ]);
 
   const onConnect: OnConnect = useCallback(
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   );
 
-  const fetchHeroData = useCallback(async () => {
-    const films = await Promise.all(
-      person.films.map(async (film) => {
-        const res = await fetch(`https://sw-api.starnavi.io/films/${film}/`);
-        const data = await res.json();
-        return data;
-      })
-    );
+  useEffect(() => {
+    // Fetch films and starships for person
+    const fetchFilmsAndStarships = async () => {
+      const films = await Promise.all(
+        person.films.map(async (film) => {
+          const res = await axios.get<Film>(`${FILMS_URL}${film}/`);
+          return res.data;
+        })
+      );
 
-    const starships = await Promise.all(
-      person.starships.map(async (starship) => {
-        const res = await fetch(
-          `https://sw-api.starnavi.io/starships/${starship}/`
-        );
-        const data = await res.json();
-        return data;
-      })
-    );
+      const starships = await Promise.all(
+        person.starships.map(async (starship) => {
+          const res = await axios.get<Starship>(`${STARSHIPS_URL}${starship}/`);
+          return res.data;
+        })
+      );
 
-    return { films, starships };
-  }, [person]);
-
-  // Generate graph nodes and edges based on fetched data
-  const generateGraphData = useCallback(
-    (films: Film[], starships: Starship[]) => {
-      const filmNodes = films?.map((film, index) => ({
-        id: `film-${film.id}`,
-        type: "customNode",
-        position: {
-          x: index * (width / films.length - 30),
-          y: (films.length - index) * 100,
-        },
-        data: { title: film.title, episodeId: film.episode_id },
-      }));
-
-      const starshipNodes = starships?.map((starship, index) => ({
-        id: `starship-${starship.id}`,
-        type: "customNode",
-        position: {
-          x: index * (width / films.length - 30),
-          y: films.length * 100 + 50 + (starships.length - index) * 80,
-        },
-        data: { title: starship.name, model: starship.model },
-      }));
-
-      const filmEdges = films?.map((film) => ({
-        id: `hero-to-film-${film.id}`,
-        source: "hero",
-        target: `film-${film.id}`,
-      }));
-
-      const starshipEdges = starships?.flatMap((starship) => {
-        return films
-          .filter((film) => starship?.films.includes(film.id))
-          .map((film) => ({
-            id: `film-${film.id}-to-starship-${starship.id}`,
-            source: `film-${film.id}`,
-            target: `starship-${starship.id}`,
-          }));
-      });
+      // Generate graph nodes and edges based on fetched data
+      const { filmEdges, filmNodes, starshipEdges, starshipNodes } =
+        generateGraphData(films, starships, width);
 
       setNodes((prevNodes) => [...prevNodes, ...filmNodes, ...starshipNodes]);
       setEdges([...filmEdges, ...starshipEdges]);
-    },
-    [setNodes, setEdges]
-  );
 
-  useEffect(() => {
-    fetchHeroData().then(({ films, starships }) => {
-      generateGraphData(films, starships);
       setIsLoading(false);
-    });
-  }, [fetchHeroData, generateGraphData]);
+    };
+
+    fetchFilmsAndStarships();
+  }, [person.films, person.starships, setEdges, setNodes, width]);
 
   return (
     <Modal open={open} onClose={handleClose}>
-      <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "80%",
-          border: "2px solid #000",
-          height: "70%",
-          background: "#131313",
-          color: "#FFF",
-        }}
-      >
+      <div className="modal">
         {isLoading ? (
           <Loader />
         ) : (
@@ -144,10 +94,7 @@ const CardInfoModal = ({ person, open, handleClose }: CardInfoModalProps) => {
             onConnect={onConnect}
           />
         )}
-        <button
-          onClick={handleClose}
-          style={{ position: "absolute", right: "10px", top: "10px" }}
-        >
+        <button onClick={handleClose} className="modal__button">
           <CloseIcon />
         </button>
       </div>

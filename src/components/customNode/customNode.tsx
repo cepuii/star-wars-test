@@ -1,7 +1,8 @@
 import { Handle, Node, NodeProps, Position } from "@xyflow/react";
-
+import "./customNode.style.css";
 type CustomNodeProps = Node<
   {
+    id: number;
     title: string;
     episodeId?: number;
     model?: string;
@@ -13,16 +14,7 @@ function CustomNode({ data }: NodeProps<CustomNodeProps>) {
   return (
     <>
       <Handle type="target" position={Position.Top} />
-      <div
-        style={{
-          border: "1px solid #6f6f6f",
-          borderRadius: "20px",
-          fontSize: "0.8rem",
-          padding: "10px",
-          margin: "0 10px",
-          textAlign: "center",
-        }}
-      >
+      <div className="node-container">
         {episodeId && <h2>{`Episode ${episodeId}`}</h2>}
         <h2>{title}</h2>
         {model && <p>{model}</p>}

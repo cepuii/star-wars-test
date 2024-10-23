@@ -1,3 +1,15 @@
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  border: 2px solid #000;
+  height: 70%;
+  background: #131313;
+  color: #fff;
+}
+
 .dialog__panel {
   width: 100%;
   max-width: 448px;
@@ -10,4 +22,10 @@
 .dialog__panel[data-closed] {
   transform: scale(0.95);
   opacity: 0;
+}
+
+.modal__button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }

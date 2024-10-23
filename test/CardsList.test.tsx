@@ -67,6 +67,7 @@ describe("CardsList", () => {
     (useFetch as jest.Mock).mockReturnValue({
       data: mockData,
       loading: false,
+      error: null,
     });
   });
 
@@ -78,9 +79,23 @@ describe("CardsList", () => {
 
     render(<CardsList />);
 
-    // Assert that Loader is displayed
     expect(screen.getByText("Loading...")).toBeInTheDocument();
   });
+
+  it("should show error message when error occur", () => {
+    (useFetch as jest.Mock).mockReturnValue({
+      data: null,
+      loading: false,
+      error: "Can't fetch data from API",
+    });
+
+    render(<CardsList />);
+
+    expect(
+      screen.getByText("Failed to load data. Please try again later.")
+    ).toBeInTheDocument();
+  });
+
   it("should render people cards when data is loaded", async () => {
     render(<CardsList />);
 
