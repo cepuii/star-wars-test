@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { Mousewheel } from "swiper/modules";
+import { Mousewheel, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { PEOPLE_URL } from "../../constants/urls";
 import useFetch from "../../hooks/useFetch";
+import useResponsiveWidth from "../../hooks/useResponsiveWidth";
+import Loader from "../ui/loader/loader";
 import CardItem from "./cardItem/cardItem";
 
 import "swiper/css";
-import useResponsiveWidth from "../../hooks/useResponsiveWidth";
-import Loader from "../ui/loader/loader";
+import "swiper/css/pagination";
 import "./CardsList.style.css";
 
 interface PeopleApiData {
@@ -70,7 +71,10 @@ const CardsList = () => {
       direction="vertical"
       spaceBetween={30}
       mousewheel={true}
-      modules={[Mousewheel]}
+      pagination={{
+        dynamicBullets: true,
+      }}
+      modules={[Mousewheel, Pagination]}
       onSlideChange={(swiper) =>
         handleSlideChange(people.length, swiper.activeIndex)
       }

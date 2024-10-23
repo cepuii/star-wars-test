@@ -22,6 +22,23 @@
   gap: 50px;
 }
 
+.swiper-pagination {
+  top: 25% !important;
+  width: 12px !important;
+  margin-right: 10px;
+}
+.swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background-color: #ffc500;
+}
+.swiper-pagination-bullet-next {
+  background-color: #fff5d2;
+}
+.swiper-pagination-bullet-next-next {
+  background-color: #fff5d2;
+}
+
 @media (min-width: 1200px) {
   .slider__item__wrapper {
     grid-template-columns: repeat(3, minmax(0, 1fr));
