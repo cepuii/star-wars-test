@@ -25,8 +25,10 @@ interface CardInfoModalProps {
 
 const CardInfoModal = ({ person, open, handleClose }: CardInfoModalProps) => {
   const [isLoading, setIsLoading] = useState(true);
-  const nodeTypes = useMemo(() => ({ customNode: CustomNode }), []);
   const width = useResponsiveWidth();
+
+  const nodeTypes = useMemo(() => ({ customNode: CustomNode }), []);
+
   const [nodes, setNodes, onNodesChange] = useNodesState([
     {
       id: "hero",
@@ -35,6 +37,7 @@ const CardInfoModal = ({ person, open, handleClose }: CardInfoModalProps) => {
       data: { id: person?.id, title: person?.name },
     },
   ]);
+
   const [edges, setEdges, onEdgesChange] = useEdgesState([
     { id: "", source: "", target: "" },
   ]);
@@ -45,6 +48,7 @@ const CardInfoModal = ({ person, open, handleClose }: CardInfoModalProps) => {
   );
 
   useEffect(() => {
+    // Fetch films and starships for person
     const fetchFilmsAndStarships = async () => {
       const films = await Promise.all(
         person.films.map(async (film) => {
@@ -60,8 +64,8 @@ const CardInfoModal = ({ person, open, handleClose }: CardInfoModalProps) => {
         })
       );
 
+      // Generate graph nodes and edges based on fetched data
       const { filmEdges, filmNodes, starshipEdges, starshipNodes } =
-        // Generate graph nodes and edges based on fetched data
         generateGraphData(films, starships, width);
 
       setNodes((prevNodes) => [...prevNodes, ...filmNodes, ...starshipNodes]);

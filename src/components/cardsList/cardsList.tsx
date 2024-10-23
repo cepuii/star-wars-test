@@ -38,6 +38,7 @@ const CardsList = () => {
     }
   }, [data]);
 
+  // Set up slides count for one view based on window width
   useEffect(() => {
     if (width < 600) {
       setSlidesPerView(1);
@@ -55,7 +56,7 @@ const CardsList = () => {
         <h2>{"Failed to load data. Please try again later."}</h2>
       </div>
     );
-
+  // Handle scroll progress and fetch next list when it needs
   const handleSlideChange = (peopleLength: number, index: number) => {
     if (index >= peopleLength / slidesPerView - 2 && !!nextPageUrl) {
       setFetchUrl(nextPageUrl);
